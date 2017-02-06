@@ -2,7 +2,7 @@ package feandrad.ombdexample.utils.security;
 
 import java.security.InvalidParameterException;
 
-import br.com.pontualmobile.utils.string.StringHelper;
+import feandrad.ombdexample.utils.string.StringHelper;
 
 /**
  * Created by feandrad on 31/08/16.
