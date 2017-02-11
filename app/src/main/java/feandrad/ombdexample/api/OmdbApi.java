@@ -1,13 +1,39 @@
 package feandrad.ombdexample.api;
 
+import java.util.ArrayList;
+
+import feandrad.ombdexample.model.Movie;
+import retrofit2.Call;
+import retrofit2.http.GET;
+import retrofit2.http.Query;
+
 /**
  * Created by feandrad on 09/02/2017.
  */
 public interface OmdbApi {
 
-	String OMDB_BASE_URL = "http://www.omdbapi.com/";
+	String OMDB_BASE_URL = "http://www.omdbapi.com";
 
 	String OMDB_SEARCH_BY_TITLE = "";
+
+	interface Search {
+
+		@GET("/type=movie&r=json")
+		Call<APIResponse<ArrayList<Movie>>> moviesMatchName(
+				@Query("s") String name
+		);
+
+		@GET("/type=movie&r=json")
+		Call<APIResponse<ArrayList<Movie>>> movieMatchExactName(
+				@Query("t") String name
+		);
+
+		@GET("/type=movie&r=json")
+		Call<APIResponse<Movie>> movieById(
+				@Query("i") String IMDbId
+		);
+
+	}
 
 	// TESTONLY
 	String DEBUG_MOVIE_NOT_FOUND =
