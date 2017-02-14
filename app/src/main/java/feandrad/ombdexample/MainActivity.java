@@ -1,5 +1,8 @@
 package feandrad.ombdexample;
 
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
+import android.app.ListFragment;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -50,6 +53,11 @@ public class MainActivity extends AppCompatActivity
 		navigationView.setNavigationItemSelectedListener(this);
 
 		fab.show();
+
+		FragmentManager fragmentManager = getFragmentManager();
+		FragmentTransaction transaction = fragmentManager.beginTransaction();
+		transaction.add(R.id.main_container, new ListFragment());
+		transaction.commit();
 	}
 
 	@Override public void onBackPressed() {

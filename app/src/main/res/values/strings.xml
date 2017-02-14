@@ -9,5 +9,6 @@
 	<string name="source">Source</string>
 	<string name="github">Github</string>
 	<string name="movies">Filmes</string>
+	<string name="poster_description">Poster</string>
 
 </resources>
