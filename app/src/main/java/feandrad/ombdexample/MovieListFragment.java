@@ -1,6 +1,5 @@
 package feandrad.ombdexample;
 
-import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -20,6 +19,8 @@ import butterknife.ButterKnife;
 public class MovieListFragment extends Fragment {
 	
 	@BindView(R.id.movie_list) RecyclerView movieGrid;
+
+	MainActivity mainActivity;
 	
 	@Nullable @Override
 	public View onCreateView(final LayoutInflater inflater, ViewGroup container,
@@ -27,6 +28,8 @@ public class MovieListFragment extends Fragment {
 		
 		View rootView = inflater.inflate(R.layout.fragment_home, container, false);
 		ButterKnife.bind(this, rootView);
+
+		mainActivity = (MainActivity) getActivity();
 
 		StaggeredGridLayoutManager lm = new StaggeredGridLayoutManager(2,
 				StaggeredGridLayoutManager.VERTICAL);
@@ -36,8 +39,6 @@ public class MovieListFragment extends Fragment {
 				R.drawable.side_nav_bar,
 				R.drawable.side_nav_bar
 		};
-
-		final Activity activity = getActivity();
 
 		RecyclerView.Adapter adapter = new RecyclerView.Adapter<MovieVH>() {
 
@@ -49,6 +50,8 @@ public class MovieListFragment extends Fragment {
 					@Override public void onVHClicked(MovieVH vh) {
 
 						// TODO: Call MovieDetailsFragment
+						mainActivity.setActiveFragment(new MovieDetailsFragment());
+
 					}
 				});
 			}
@@ -84,8 +87,7 @@ public class MovieListFragment extends Fragment {
 			mListener = listener;
 		}
 
-		@Override
-		public void onClick(View v) {
+		@Override public void onClick(View v) {
 			mListener.onVHClicked(this);
 		}
 	}

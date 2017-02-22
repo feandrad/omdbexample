@@ -1,8 +1,8 @@
 package feandrad.ombdexample;
 
+import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.app.ListFragment;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -31,12 +31,6 @@ public class MainActivity extends AppCompatActivity
 
 	private ActionBarDrawerToggle toggle;
 
-	@OnClick(R.id.fab) void addMovie() {
-		// TODO Change active fragment to searchMovieFragment
-
-		fab.hide();
-	}
-
 	@Override protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
@@ -54,10 +48,7 @@ public class MainActivity extends AppCompatActivity
 
 		fab.show();
 
-		FragmentManager fragmentManager = getFragmentManager();
-		FragmentTransaction transaction = fragmentManager.beginTransaction();
-		transaction.add(R.id.main_container, new ListFragment());
-		transaction.commit();
+		setActiveFragment(new MovieListFragment());
 	}
 
 	@Override public void onBackPressed() {
@@ -104,4 +95,19 @@ public class MainActivity extends AppCompatActivity
 		drawer.closeDrawer(GravityCompat.START);
 		return true;
 	}
+
+	@OnClick(R.id.fab) void addMovie() {
+		// TODO Change active fragment to searchMovieFragment
+		setActiveFragment(new MovieDetailsFragment());
+
+		fab.hide();
+	}
+
+	public void setActiveFragment(Fragment fragment) {
+		FragmentManager fragmentManager = getFragmentManager();
+		FragmentTransaction transaction = fragmentManager.beginTransaction();
+		transaction.add(R.id.main_container, fragment);
+		transaction.commit();
+	}
+
 }
