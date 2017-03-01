@@ -3,14 +3,14 @@
 
 	<group android:checkableBehavior="single">
 		<item android:id="@+id/nav_movies"
-			  android:icon="@drawable/ic_menu_slideshow"
+			  android:icon="@drawable/ic_movie_white_24dp"
 			  android:title="@string/movies"/>
 	</group>
 
 	<item android:title="@string/source">
 		<menu>
 			<item android:id="@+id/nav_github"
-				  android:icon="@drawable/ic_menu_share"
+				  android:icon="@drawable/ic_github_circle_white_24dp"
 				  android:title="@string/github"/>
 		</menu>
 	</item>
