@@ -11,6 +11,6 @@
 	<string name="movies">Filmes</string>
 	<string name="poster_description">Poster</string>
 	<string name="movie_poster">Movie Poster</string>
-	<string name="hint_search_movie">Ex: Scarface</string>
+	<string name="hint_search_movie">Buscar Filmes</string>
 
 </resources>

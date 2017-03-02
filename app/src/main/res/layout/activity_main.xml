@@ -39,7 +39,7 @@
 				<SearchView android:id="@+id/mySearchView"
 							android:layout_width="match_parent"
 							android:layout_height="wrap_content"
-							android:layout_centerInParent="true"
+							android:layout_centerInParent="false"
 							android:icon="@drawable/ic_search_white_24dp"
 							android:iconifiedByDefault="false"
 							android:queryHint="@string/hint_search_movie"/>
