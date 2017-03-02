@@ -18,18 +18,18 @@ public interface OmdbApi {
 
 	interface Search {
 
-		@GET("/type=movie&r=json")
-		Call<APIResponse<ArrayList<Movie>>> moviesMatchName(
+		@GET("/?type=movie&r=json&")
+		Call<SearchResponse> moviesMatchName(
 				@Query("s") String name
 		);
 
-		@GET("/type=movie&r=json")
-		Call<APIResponse<ArrayList<Movie>>> movieMatchExactName(
+		@GET("/?type=movie&r=json&")
+		Call<ArrayList<Movie>> movieMatchExactName(
 				@Query("t") String name
 		);
 
-		@GET("/type=movie&r=json")
-		Call<APIResponse<Movie>> movieById(
+		@GET("/?type=movie&r=json&")
+		Call<Movie> movieById(
 				@Query("i") String IMDbId
 		);
 

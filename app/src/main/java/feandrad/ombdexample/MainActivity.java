@@ -12,17 +12,24 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.SearchView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import feandrad.ombdexample.api.ApiTask;
+import feandrad.ombdexample.api.SearchByNameTask;
+import feandrad.ombdexample.api.SearchResponse;
 
 public class MainActivity extends AppCompatActivity
-		implements NavigationView.OnNavigationItemSelectedListener {
+		implements NavigationView.OnNavigationItemSelectedListener,
+		SearchView.OnQueryTextListener {
+	
+	private static final String LOG_TAG = MainActivity.class.getSimpleName();
 
 	@BindView(R.id.fab) FloatingActionButton fab;
 	@BindView(R.id.drawer_layout) DrawerLayout drawer;
@@ -31,6 +38,8 @@ public class MainActivity extends AppCompatActivity
 
 	@BindView(R.id.toolbar) Toolbar toolbar;
 	@BindView(R.id.searchbar) Toolbar searchbar;
+
+	@BindView(R.id.search_view) SearchView searchView;
 
 	private ActionBarDrawerToggle toggle;
 
@@ -52,6 +61,9 @@ public class MainActivity extends AppCompatActivity
 		fab.show();
 
 		setActiveFragment(new MovieGridFragment());
+
+		searchView.setOnQueryTextListener(this);
+
 	}
 
 	@Override public void onBackPressed() {
@@ -83,6 +95,38 @@ public class MainActivity extends AppCompatActivity
 		return true;
 	}
 
+	@Override public boolean onQueryTextSubmit(String query) {
+
+		// TODO: Show progress dialog
+		
+		Log.d(LOG_TAG, "Query started.");
+
+		new SearchByNameTask(query, new ApiTask.APIListener<SearchResponse>() {
+
+			@Override public void onSuccess(SearchResponse dataObject) {
+
+				Log.d(LOG_TAG, "Query succeed.");
+			}
+
+			@Override public void onError(ApiTask.APIError e) {
+
+				Log.d(LOG_TAG, "Query returned a error.");
+			}
+
+			@Override public void onFailure(Exception e) {
+
+				Log.d(LOG_TAG, "Query failed.");
+			}
+
+		}).execute();
+
+		return false;
+	}
+
+	@Override public boolean onQueryTextChange(String newText) {
+		return false;
+	}
+
 	private void goToMovieGridFragment() {
 		setActiveFragment(new MovieGridFragment());
 		searchbar.setVisibility(View.GONE);
@@ -101,29 +145,4 @@ public class MainActivity extends AppCompatActivity
 		transaction.replace(R.id.main_container, fragment);
 		transaction.commit();
 	}
-
-	// CHECKIT
-	@Override public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.main, menu);
-		return true;
-	}
-
-	// CHECKIT
-	@Override public boolean onOptionsItemSelected(MenuItem item) {
-		// Handle action bar item clicks here. The action bar will
-		// automatically handle clicks on the Home/Up button, so long
-		// as you specify a parent activity in AndroidManifest.xml.
-
-		switch (item.getItemId()) {
-			case R.id.action_settings:
-				break;
-
-			default:
-				break;
-		}
-
-		return super.onOptionsItemSelected(item);
-	}
-
 }
