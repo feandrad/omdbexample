@@ -1,14 +1,11 @@
 package feandrad.ombdexample.api;
 
+import android.util.Log;
+
 import com.google.gson.stream.MalformedJsonException;
 
-import java.io.IOException;
-import java.lang.annotation.Annotation;
-
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
-import retrofit2.Converter;
 import retrofit2.Response;
 
 /**
@@ -16,6 +13,7 @@ import retrofit2.Response;
  */
 public class ApiTask<Received> implements Callback<Received> {
 
+	private static final String LOG_TAG = "ApiTask";
 	private Call<Received> call;
 	private APIListener<Received> listener;
 
@@ -70,8 +68,9 @@ public class ApiTask<Received> implements Callback<Received> {
 	@Override
 	public void onResponse(Call<Received> call, Response<Received> response) {
 		if (!response.isSuccessful()) {
-			final APIError error = parseError(response);
-			listener.onError(error);
+
+			Log.e(LOG_TAG, response.message());
+			listener.onError(new APIError());
 
 		} else {
 			Received result = onSuccess(response.body());
@@ -94,23 +93,6 @@ public class ApiTask<Received> implements Callback<Received> {
 
 	protected Received onSuccess(Received result) {
 		return result;
-	}
-
-	protected APIError parseError(Response<?> response) {
-		Converter<ResponseBody, APIError> converter = Api
-				.getRetrofit()
-				.responseBodyConverter(APIError.class, new Annotation[0]);
-
-		APIError error;
-
-		try {
-			error = converter.convert(response.errorBody());
-		} catch (IOException e) {
-			e.printStackTrace();
-			return new APIError();
-		}
-
-		return error;
 	}
 
 	public class APIError {

@@ -14,6 +14,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.FrameLayout;
 
 import butterknife.BindView;
@@ -24,10 +25,12 @@ public class MainActivity extends AppCompatActivity
 		implements NavigationView.OnNavigationItemSelectedListener {
 
 	@BindView(R.id.fab) FloatingActionButton fab;
-	@BindView(R.id.toolbar) Toolbar toolbar;
 	@BindView(R.id.drawer_layout) DrawerLayout drawer;
 	@BindView(R.id.nav_view) NavigationView navigationView;
 	@BindView(R.id.main_container) FrameLayout fragmentContainer;
+
+	@BindView(R.id.toolbar) Toolbar toolbar;
+	@BindView(R.id.searchbar) Toolbar searchbar;
 
 	private ActionBarDrawerToggle toggle;
 
@@ -53,8 +56,13 @@ public class MainActivity extends AppCompatActivity
 
 	@Override public void onBackPressed() {
 		DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+
 		if (drawer.isDrawerOpen(GravityCompat.START)) {
 			drawer.closeDrawer(GravityCompat.START);
+
+		} else if (searchbar.getVisibility() == View.VISIBLE) {
+			goToMovieGridFragment();
+
 		} else {
 			super.onBackPressed();
 		}
@@ -64,8 +72,7 @@ public class MainActivity extends AppCompatActivity
 
 		switch (item.getItemId()) {
 			case R.id.nav_movies:
-				setActiveFragment(new MovieGridFragment());
-				fab.show();
+				goToMovieGridFragment();
 				break;
 
 			default:
@@ -76,8 +83,15 @@ public class MainActivity extends AppCompatActivity
 		return true;
 	}
 
-	@OnClick(R.id.fab) void addMovie() {
+	private void goToMovieGridFragment() {
+		setActiveFragment(new MovieGridFragment());
+		searchbar.setVisibility(View.GONE);
+		fab.show();
+	}
+
+	@OnClick(R.id.fab) void goToSearchByNameFragment() {
 		setActiveFragment(new SearchByNameFragment());
+		searchbar.setVisibility(View.VISIBLE);
 		fab.hide();
 	}
 

@@ -24,11 +24,27 @@
 			android:theme="@style/AppTheme.AppBarOverlay">
 
 			<android.support.v7.widget.Toolbar
-				android:id="@+id/toolbar"
+			android:id="@+id/toolbar"
+			android:layout_width="match_parent"
+			android:layout_height="?attr/actionBarSize"
+			android:background="?attr/colorPrimary"
+			app:popupTheme="@style/AppTheme.PopupOverlay"/>
+
+			<android.support.v7.widget.Toolbar
+				android:id="@+id/searchbar"
 				android:layout_width="match_parent"
-				android:layout_height="?attr/actionBarSize"
-				android:background="?attr/colorPrimary"
-				app:popupTheme="@style/AppTheme.PopupOverlay"/>
+				android:layout_height="wrap_content"
+				android:visibility="gone">
+
+				<SearchView android:id="@+id/mySearchView"
+							android:layout_width="match_parent"
+							android:layout_height="wrap_content"
+							android:layout_centerInParent="true"
+							android:icon="@drawable/ic_search_white_24dp"
+							android:iconifiedByDefault="false"
+							android:queryHint="@string/hint_search_movie"/>
+
+			</android.support.v7.widget.Toolbar>
 
 		</android.support.design.widget.AppBarLayout>
 

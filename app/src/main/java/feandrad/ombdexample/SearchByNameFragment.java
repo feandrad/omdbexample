@@ -15,6 +15,7 @@ import feandrad.ombdexample.api.OMDbService;
  */
 public class SearchByNameFragment extends Fragment {
 
+
 	MainActivity mainActivity;
 
 	@Nullable @Override
@@ -27,7 +28,6 @@ public class SearchByNameFragment extends Fragment {
 
 		mainActivity = (MainActivity) getActivity();
 
-		search("it");
 
 		return rootView;
 	}
