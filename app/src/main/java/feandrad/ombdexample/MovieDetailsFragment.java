@@ -51,13 +51,15 @@ public class MovieDetailsFragment extends Fragment {
 		movie = (Movie) getArguments().getSerializable(OMDbExample.Tags.IMDB_ID);
 
 		if (movie == null) {
-			mainActivity.goToMovieGridFragment();
+			Log.e(LOG_TAG, "Null movie");
 
 		} else if (UserData.getInstance().hasMovie(movie)) {
 			movie = UserData.getInstance().getMovieById(movie.getImdbID());
 			update();
 
 		} else {
+			Log.d(LOG_TAG, "Query started.");
+
 			progressDialog = ProgressDialog.show(
 					getActivity(),
 					null,
@@ -69,10 +71,12 @@ public class MovieDetailsFragment extends Fragment {
 					movie.getImdbID(),
 					new ApiTask.APIListener<Movie>() {
 
-						@Override public void onSuccess(Movie movie) {
+						@Override public void onSuccess(Movie result) {
 							Log.d(LOG_TAG, "Query succeed.");
 							progressDialog.dismiss();
 
+							movie = result;
+							update();
 						}
 
 						@Override public void onError(ApiTask.APIError e) {
@@ -98,9 +102,8 @@ public class MovieDetailsFragment extends Fragment {
 		director.setText(movie.getDirector());
 		plot.setText(movie.getPlot());
 
-		// TODO: Poster
-
-		if (UserData.getInstance().hasPoster(movie.getImdbID())){
+		if (UserData.getInstance().hasPoster(movie.getImdbID())) {
+			// TODO: Poster offline caso Picasso falhe
 
 		} else {
 

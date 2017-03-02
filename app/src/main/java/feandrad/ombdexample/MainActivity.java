@@ -1,12 +1,17 @@
 package feandrad.ombdexample;
 
-import android.app.Fragment;
 import android.app.FragmentManager;
-import android.app.FragmentTransaction;
+import android.content.Context;
+import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -27,6 +32,7 @@ public class MainActivity extends AppCompatActivity
 	
 	private static final String LOG_TAG = MainActivity.class.getSimpleName();
 
+	@BindView(R.id.coordinator_layout) CoordinatorLayout coordinatorLayout;
 	@BindView(R.id.fab) FloatingActionButton fab;
 	@BindView(R.id.drawer_layout) DrawerLayout drawer;
 	@BindView(R.id.nav_view) NavigationView navigationView;
@@ -56,7 +62,9 @@ public class MainActivity extends AppCompatActivity
 
 		fab.show();
 
-		setActiveFragment(new MovieGridFragment());
+		getFragmentManager().beginTransaction()
+							.replace(R.id.main_container, new MovieGridFragment())
+							.commit();
 
 	}
 
@@ -66,19 +74,34 @@ public class MainActivity extends AppCompatActivity
 		if (drawer.isDrawerOpen(GravityCompat.START)) {
 			drawer.closeDrawer(GravityCompat.START);
 
-		} else if (searchbar.getVisibility() == View.VISIBLE) {
-			goToMovieGridFragment();
+		} else if (getFragmentManager().getBackStackEntryCount() > 0) {
+			getFragmentManager().popBackStackImmediate();
+
+			if (getFragmentManager().getBackStackEntryCount() == 0) {
+				searchbar.setVisibility(View.GONE);
+				fab.show();
+			}
 
 		} else {
 			super.onBackPressed();
 		}
+
 	}
 
 	@Override public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
 		switch (item.getItemId()) {
 			case R.id.nav_movies:
-				goToMovieGridFragment();
+				goToHomeFragment();
+				break;
+
+			case R.id.nav_github:
+				Intent browserIntent = new Intent(
+						Intent.ACTION_VIEW,
+						Uri.parse("https://github.com/feandrad/omdbexample")
+				);
+
+				startActivity(browserIntent);
 				break;
 
 			default:
@@ -89,12 +112,6 @@ public class MainActivity extends AppCompatActivity
 		return true;
 	}
 
-	public void goToMovieGridFragment() {
-		setActiveFragment(new MovieGridFragment());
-		searchbar.setVisibility(View.GONE);
-		fab.show();
-	}
-
 	public void goToMovieDetailsFragment(Movie movie) {
 		MovieDetailsFragment movieDetailsFragment = new MovieDetailsFragment();
 
@@ -102,25 +119,56 @@ public class MainActivity extends AppCompatActivity
 		bundle.putSerializable(OMDbExample.Tags.IMDB_ID, movie);
 		movieDetailsFragment.setArguments(bundle);
 
-		setActiveFragment(movieDetailsFragment);
+		getFragmentManager().beginTransaction()
+							.replace(R.id.main_container, movieDetailsFragment)
+							.addToBackStack(null)
+							.commit();
+
 		searchbar.setVisibility(View.GONE);
 		fab.hide();
 	}
 
 	@OnClick(R.id.fab) void goToSearchByNameFragment() {
 
+		if (!isNetworkAvailable()) {
+			Snackbar.make(
+					coordinatorLayout,
+					"Sem internet",
+					Snackbar.LENGTH_LONG
+			).show();
+			return;
+		}
+
 		SearchByNameFragment searchByNameFragment = new SearchByNameFragment();
-		setActiveFragment(searchByNameFragment);
+
+		getFragmentManager().beginTransaction()
+							.replace(R.id.main_container, searchByNameFragment)
+							.addToBackStack(null)
+							.commit();
+
 		searchbar.setVisibility(View.VISIBLE);
 		searchView.setOnQueryTextListener(searchByNameFragment);
 		fab.hide();
 	}
 
-	public void setActiveFragment(Fragment fragment) {
-		FragmentManager fragmentManager = getFragmentManager();
-		FragmentTransaction transaction = fragmentManager.beginTransaction();
-		transaction.replace(R.id.main_container, fragment);
-		transaction.commit();
+	public void goToHomeFragment() {
+		FragmentManager manager = getFragmentManager();
+		if (manager.getBackStackEntryCount() > 0) {
+			FragmentManager.BackStackEntry first = manager.getBackStackEntryAt(0);
+			manager.popBackStack(first.getId(),
+					FragmentManager.POP_BACK_STACK_INCLUSIVE);
+		}
+
+		searchbar.setVisibility(View.GONE);
+		fab.show();
+	}
+
+	private boolean isNetworkAvailable() {
+		ConnectivityManager connectivityManager
+				= (ConnectivityManager) getSystemService(
+				Context.CONNECTIVITY_SERVICE);
+		NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+		return activeNetworkInfo != null;
 	}
 
 }

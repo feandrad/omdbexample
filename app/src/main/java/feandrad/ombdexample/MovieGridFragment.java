@@ -11,11 +11,13 @@ import android.view.ViewGroup;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import feandrad.ombdexample.model.Movie;
 
 /**
  * Created by feandrad on 14/02/2017.
  */
-public class MovieGridFragment extends Fragment {
+public class MovieGridFragment extends Fragment implements
+		MovieGridAdapter.AdapterItemClickListener {
 	
 	@BindView(R.id.movie_list) RecyclerView movieGrid;
 
@@ -32,7 +34,8 @@ public class MovieGridFragment extends Fragment {
 
 		mainActivity = (MainActivity) getActivity();
 
-		gridAdapter = new MovieGridAdapter();
+		gridAdapter = new MovieGridAdapter(this);
+		gridAdapter.setMovieList(UserData.getInstance().getMovies());
 		movieGrid.setAdapter(gridAdapter);
 
 		StaggeredGridLayoutManager lm = new StaggeredGridLayoutManager(2,
@@ -44,8 +47,11 @@ public class MovieGridFragment extends Fragment {
 		return rootView;
 	}
 
-	public void update(){
-
+	@Override public void onItemClicked(Movie movie, int position) {
+		mainActivity.goToMovieDetailsFragment(movie);
 	}
 
+	public void update() {
+
+	}
 }

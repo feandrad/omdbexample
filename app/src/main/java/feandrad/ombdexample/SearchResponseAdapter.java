@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 import feandrad.ombdexample.model.Movie;
 
@@ -46,7 +47,10 @@ public class SearchResponseAdapter extends RecyclerView.Adapter {
 		return suggestions.size();
 	}
 
-	public void setSuggestions(ArrayList<Movie> movies) {
+	public void setSuggestions(Collection<Movie> movies) {
+		if (movies == null) {
+			return;
+		}
 
 		suggestions = new ArrayList<>();
 

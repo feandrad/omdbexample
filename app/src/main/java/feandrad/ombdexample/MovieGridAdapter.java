@@ -7,7 +7,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.ArrayList;
+import java.util.Collection;
 
 import feandrad.ombdexample.model.Movie;
 import feandrad.ombdexample.model.Poster;
@@ -18,6 +21,16 @@ import feandrad.ombdexample.model.Poster;
 public class MovieGridAdapter extends RecyclerView.Adapter {
 
 	ArrayList<Movie> movieList;
+
+	private final AdapterItemClickListener itemClickListener;
+
+	interface AdapterItemClickListener {
+		void onItemClicked(Movie movie, int position);
+	}
+
+	public MovieGridAdapter(AdapterItemClickListener itemClickListener) {
+		this.itemClickListener = itemClickListener;
+	}
 
 	@Override public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent,
 			int viewType) {
@@ -44,6 +57,17 @@ public class MovieGridAdapter extends RecyclerView.Adapter {
 		return movieList.size();
 	}
 
+	public void setMovieList(Collection<Movie> movies) {
+
+		movieList = new ArrayList<>();
+
+		for (Movie movie : movies) {
+			movieList.add(movie);
+			notifyItemInserted(getItemCount());
+		}
+
+	}
+
 	private class MovieGridViewHolder extends RecyclerView.ViewHolder {
 
 		private TextView textView;
@@ -62,14 +86,27 @@ public class MovieGridAdapter extends RecyclerView.Adapter {
 			});
 		}
 
-		public void bindView(int position) {
+		public void bindView(final int position) {
 
-			Movie movie = movieList.get(position);
-			Poster poster = UserData.getInstance().getPosterById(movie.getImdbID());
-
+			final Movie movie = movieList.get(position);
 			textView.setText(movie.getTitle());
-			imageView.setImageResource(poster.getImageResource());
 
+			Poster poster = UserData.getInstance().getPosterById(movie.getImdbID());
+			if (poster != null) {
+				imageView.setImageResource(poster.getImageResource());
+			} else {
+				Picasso.with(itemView.getContext())
+					   .load(movie.getPosterUrl())
+					   .placeholder(R.drawable.ic_picasso_placeholder)
+					   .fit().centerCrop()
+					   .into(imageView);
+			}
+
+			itemView.setOnClickListener(new View.OnClickListener() {
+				@Override public void onClick(View v) {
+					itemClickListener.onItemClicked(movie, position);
+				}
+			});
 		}
 
 	}
