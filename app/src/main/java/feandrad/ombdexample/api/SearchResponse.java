@@ -12,6 +12,9 @@ import feandrad.ombdexample.model.Movie;
  */
 public class SearchResponse {
 
-	@Expose @SerializedName("Search") private ArrayList<Movie> response;
+	@Expose @SerializedName("Search") private ArrayList<Movie> suggestedMovies;
 
+	public ArrayList<Movie> getSuggestedMovies() {
+		return suggestedMovies;
+	}
 }

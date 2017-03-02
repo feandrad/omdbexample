@@ -12,5 +12,7 @@
 	<string name="poster_description">Poster</string>
 	<string name="movie_poster">Movie Poster</string>
 	<string name="hint_search_movie">Buscar Filmes</string>
+	<string name="dialog_searching_movies">Buscando filmes...</string>
+	<string name="search_movie_info">Buscando informações...</string>
 
 </resources>

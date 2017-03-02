@@ -12,7 +12,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -21,13 +20,10 @@ import android.widget.SearchView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import feandrad.ombdexample.api.ApiTask;
-import feandrad.ombdexample.api.SearchByNameTask;
-import feandrad.ombdexample.api.SearchResponse;
+import feandrad.ombdexample.model.Movie;
 
 public class MainActivity extends AppCompatActivity
-		implements NavigationView.OnNavigationItemSelectedListener,
-		SearchView.OnQueryTextListener {
+		implements NavigationView.OnNavigationItemSelectedListener {
 	
 	private static final String LOG_TAG = MainActivity.class.getSimpleName();
 
@@ -62,8 +58,6 @@ public class MainActivity extends AppCompatActivity
 
 		setActiveFragment(new MovieGridFragment());
 
-		searchView.setOnQueryTextListener(this);
-
 	}
 
 	@Override public void onBackPressed() {
@@ -95,47 +89,30 @@ public class MainActivity extends AppCompatActivity
 		return true;
 	}
 
-	@Override public boolean onQueryTextSubmit(String query) {
-
-		// TODO: Show progress dialog
-		
-		Log.d(LOG_TAG, "Query started.");
-
-		new SearchByNameTask(query, new ApiTask.APIListener<SearchResponse>() {
-
-			@Override public void onSuccess(SearchResponse dataObject) {
-
-				Log.d(LOG_TAG, "Query succeed.");
-			}
-
-			@Override public void onError(ApiTask.APIError e) {
-
-				Log.d(LOG_TAG, "Query returned a error.");
-			}
-
-			@Override public void onFailure(Exception e) {
-
-				Log.d(LOG_TAG, "Query failed.");
-			}
-
-		}).execute();
-
-		return false;
-	}
-
-	@Override public boolean onQueryTextChange(String newText) {
-		return false;
-	}
-
-	private void goToMovieGridFragment() {
+	public void goToMovieGridFragment() {
 		setActiveFragment(new MovieGridFragment());
 		searchbar.setVisibility(View.GONE);
 		fab.show();
 	}
 
+	public void goToMovieDetailsFragment(Movie movie) {
+		MovieDetailsFragment movieDetailsFragment = new MovieDetailsFragment();
+
+		Bundle bundle = new Bundle();
+		bundle.putSerializable(OMDbExample.Tags.IMDB_ID, movie);
+		movieDetailsFragment.setArguments(bundle);
+
+		setActiveFragment(movieDetailsFragment);
+		searchbar.setVisibility(View.GONE);
+		fab.hide();
+	}
+
 	@OnClick(R.id.fab) void goToSearchByNameFragment() {
-		setActiveFragment(new SearchByNameFragment());
+
+		SearchByNameFragment searchByNameFragment = new SearchByNameFragment();
+		setActiveFragment(searchByNameFragment);
 		searchbar.setVisibility(View.VISIBLE);
+		searchView.setOnQueryTextListener(searchByNameFragment);
 		fab.hide();
 	}
 
@@ -145,4 +122,5 @@ public class MainActivity extends AppCompatActivity
 		transaction.replace(R.id.main_container, fragment);
 		transaction.commit();
 	}
+
 }

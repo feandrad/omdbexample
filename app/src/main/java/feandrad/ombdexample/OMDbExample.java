@@ -26,5 +26,11 @@ public class OMDbExample extends Application {
 		new Handler(Looper.getMainLooper()).post(runnable);
 	}
 
+	public class Tags {
+		public static final String DB_MOVIES = "DB_MOVIES";
+		public static final String DB_POSTERS = "DB_POSTERS";
+
+		public static final String IMDB_ID = "IMDB_ID";
+	}
 }
 

@@ -5,6 +5,9 @@ import java.util.HashMap;
 
 import feandrad.ombdexample.model.Movie;
 import feandrad.ombdexample.model.Poster;
+import io.paperdb.Paper;
+
+import static io.paperdb.Paper.book;
 
 /**
  * Created by feandrad on 01/03/2017.
@@ -17,6 +20,7 @@ public class UserData {
 	private HashMap<String, Poster> posters;
 	
 	private UserData() {
+		load();
 	}
 	
 	public static UserData getInstance() {
@@ -51,4 +55,27 @@ public class UserData {
 		return movies.values();
 	}
 
+	public boolean hasMovie(Movie movie) {
+		return movies.containsKey(movie.getImdbID());
+	}
+
+	public boolean hasPoster(String imdbID) {
+		return posters.containsKey(imdbID);
+	}
+
+	public void sync(Movie movie) {
+		movies.put(movie.getImdbID(), movie);
+	}
+
+	public void load() {
+		movies = book().read(OMDbExample.Tags.DB_MOVIES,
+				new HashMap<String, Movie>());
+		posters = Paper.book().read(OMDbExample.Tags.DB_POSTERS,
+				new HashMap<String, Poster>());
+	}
+
+	public void save() {
+		book().write(OMDbExample.Tags.DB_MOVIES, movies);
+		book().write(OMDbExample.Tags.DB_POSTERS, posters);
+	}
 }

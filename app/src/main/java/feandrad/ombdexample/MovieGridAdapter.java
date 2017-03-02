@@ -57,7 +57,7 @@ public class MovieGridAdapter extends RecyclerView.Adapter {
 
 			itemView.setOnClickListener(new View.OnClickListener() {
 				@Override public void onClick(View v) {
-
+					// TODO: goToMovieDetails using cached data
 				}
 			});
 		}
