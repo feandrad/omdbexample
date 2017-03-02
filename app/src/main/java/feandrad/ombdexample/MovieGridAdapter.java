@@ -58,6 +58,9 @@ public class MovieGridAdapter extends RecyclerView.Adapter {
 	}
 
 	public void setMovieList(Collection<Movie> movies) {
+		if (movies == null) {
+			return;
+		}
 
 		movieList = new ArrayList<>();
 

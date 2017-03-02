@@ -14,5 +14,7 @@
 	<string name="hint_search_movie">Buscar Filmes</string>
 	<string name="dialog_searching_movies">Buscando filmes...</string>
 	<string name="search_movie_info">Buscando informações...</string>
+	<string name="github_uri">https://github.com/feandrad/</string>
+	<string name="author">Felipe Andrade</string>
 
 </resources>
