@@ -19,6 +19,8 @@ public class MovieGridFragment extends Fragment {
 	
 	@BindView(R.id.movie_list) RecyclerView movieGrid;
 
+	MovieGridAdapter gridAdapter;
+
 	MainActivity mainActivity;
 	
 	@Nullable @Override
@@ -30,13 +32,20 @@ public class MovieGridFragment extends Fragment {
 
 		mainActivity = (MainActivity) getActivity();
 
-		movieGrid.setAdapter(new MovieGridAdapter());
+		gridAdapter = new MovieGridAdapter();
+		movieGrid.setAdapter(gridAdapter);
 
 		StaggeredGridLayoutManager lm = new StaggeredGridLayoutManager(2,
 				StaggeredGridLayoutManager.VERTICAL);
 		movieGrid.setLayoutManager(lm);
 
+		update();
+
 		return rootView;
+	}
+
+	public void update(){
+
 	}
 
 }

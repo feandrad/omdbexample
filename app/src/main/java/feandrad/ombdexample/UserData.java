@@ -50,4 +50,5 @@ public class UserData {
 	public Collection<Movie> getMovies() {
 		return movies.values();
 	}
+
 }

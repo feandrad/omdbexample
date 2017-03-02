@@ -15,4 +15,5 @@ public class OMDbService {
 				.build()
 				.create(OmdbApi.Search.class);
 	}
+
 }

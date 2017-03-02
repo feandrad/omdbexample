@@ -34,6 +34,8 @@ public class Movie implements Serializable {
 	@Expose @SerializedName("totalSeasons") private String totalSeasons;
 	@Expose @SerializedName("Response") private String response;
 
+	//<editor-fold desc="Getters and Setters">
+
 	public String getTitle() {
 		return title;
 	}
@@ -201,5 +203,7 @@ public class Movie implements Serializable {
 	public void setResponse(String response) {
 		this.response = response;
 	}
+
+	//</editor-fold>
 
 }

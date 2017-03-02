@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import butterknife.ButterKnife;
+import feandrad.ombdexample.api.OMDbService;
 
 /**
  * Created by feandrad on 22/02/2017.
@@ -26,6 +27,12 @@ public class SearchByNameFragment extends Fragment {
 
 		mainActivity = (MainActivity) getActivity();
 
+		search("it");
+
 		return rootView;
+	}
+
+	private void search(String query) {
+		OMDbService.getSearchApi().moviesMatchName(query);
 	}
 }
