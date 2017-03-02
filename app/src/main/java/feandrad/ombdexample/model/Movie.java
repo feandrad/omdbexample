@@ -12,131 +12,194 @@ public class Movie implements Serializable {
 
 	private final static long serialVersionUID = -2694916123125411453L;
 
-	@Expose @SerializedName("Title") public String title;
-	@Expose @SerializedName("Year") public String year;
-	@Expose @SerializedName("Rated") public String rated;
-	@Expose @SerializedName("Released") public String released;
-	@Expose @SerializedName("Runtime") public String runtime;
-	@Expose @SerializedName("Genre") public String genre;
-	@Expose @SerializedName("Director") public String director;
-	@Expose @SerializedName("Writer") public String writer;
-	@Expose @SerializedName("Actors") public String actors;
-	@Expose @SerializedName("Plot") public String plot;
-	@Expose @SerializedName("Language") public String language;
-	@Expose @SerializedName("Country") public String country;
-	@Expose @SerializedName("Awards") public String awards;
-	@Expose @SerializedName("Poster") public String poster;
-	@Expose @SerializedName("Metascore") public String metascore;
-	@Expose @SerializedName("imdbRating") public String imdbRating;
-	@Expose @SerializedName("imdbVotes") public String imdbVotes;
-	@Expose @SerializedName("imdbID") public String imdbID;
-	@Expose @SerializedName("Type") public String type;
-	@Expose @SerializedName("totalSeasons") public String totalSeasons;
-	@Expose @SerializedName("Response") public String response;
+	@Expose @SerializedName("Title") private String title;
+	@Expose @SerializedName("Year") private String year;
+	@Expose @SerializedName("Rated") private String rated;
+	@Expose @SerializedName("Released") private String released;
+	@Expose @SerializedName("Runtime") private String runtime;
+	@Expose @SerializedName("Genre") private String genre;
+	@Expose @SerializedName("Director") private String director;
+	@Expose @SerializedName("Writer") private String writer;
+	@Expose @SerializedName("Actors") private String actors;
+	@Expose @SerializedName("Plot") private String plot;
+	@Expose @SerializedName("Language") private String language;
+	@Expose @SerializedName("Country") private String country;
+	@Expose @SerializedName("Awards") private String awards;
+	@Expose @SerializedName("Poster") private String posterUrl;
+	@Expose @SerializedName("Metascore") private String metascore;
+	@Expose @SerializedName("imdbRating") private String imdbRating;
+	@Expose @SerializedName("imdbVotes") private String imdbVotes;
+	@Expose @SerializedName("imdbID") private String imdbID;
+	@Expose @SerializedName("Type") private String type;
+	@Expose @SerializedName("totalSeasons") private String totalSeasons;
+	@Expose @SerializedName("Response") private String response;
 
-	public Movie withTitle(String title) {
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
 		this.title = title;
-		return this;
 	}
 
-	public Movie withYear(String year) {
+	public String getYear() {
+		return year;
+	}
+
+	public void setYear(String year) {
 		this.year = year;
-		return this;
 	}
 
-	public Movie withRated(String rated) {
+	public String getRated() {
+		return rated;
+	}
+
+	public void setRated(String rated) {
 		this.rated = rated;
-		return this;
 	}
 
-	public Movie withReleased(String released) {
+	public String getReleased() {
+		return released;
+	}
+
+	public void setReleased(String released) {
 		this.released = released;
-		return this;
 	}
 
-	public Movie withRuntime(String runtime) {
+	public String getRuntime() {
+		return runtime;
+	}
+
+	public void setRuntime(String runtime) {
 		this.runtime = runtime;
-		return this;
 	}
 
-	public Movie withGenre(String genre) {
+	public String getGenre() {
+		return genre;
+	}
+
+	public void setGenre(String genre) {
 		this.genre = genre;
-		return this;
 	}
 
-	public Movie withDirector(String director) {
+	public String getDirector() {
+		return director;
+	}
+
+	public void setDirector(String director) {
 		this.director = director;
-		return this;
 	}
 
-	public Movie withWriter(String writer) {
+	public String getWriter() {
+		return writer;
+	}
+
+	public void setWriter(String writer) {
 		this.writer = writer;
-		return this;
 	}
 
-	public Movie withActors(String actors) {
+	public String getActors() {
+		return actors;
+	}
+
+	public void setActors(String actors) {
 		this.actors = actors;
-		return this;
 	}
 
-	public Movie withPlot(String plot) {
+	public String getPlot() {
+		return plot;
+	}
+
+	public void setPlot(String plot) {
 		this.plot = plot;
-		return this;
 	}
 
-	public Movie withLanguage(String language) {
+	public String getLanguage() {
+		return language;
+	}
+
+	public void setLanguage(String language) {
 		this.language = language;
-		return this;
 	}
 
-	public Movie withCountry(String country) {
+	public String getCountry() {
+		return country;
+	}
+
+	public void setCountry(String country) {
 		this.country = country;
-		return this;
 	}
 
-	public Movie withAwards(String awards) {
+	public String getAwards() {
+		return awards;
+	}
+
+	public void setAwards(String awards) {
 		this.awards = awards;
-		return this;
 	}
 
-	public Movie withPoster(String poster) {
-		this.poster = poster;
-		return this;
+	public String getPosterUrl() {
+		return posterUrl;
 	}
 
-	public Movie withMetascore(String metascore) {
+	public void setPosterUrl(String posterUrl) {
+		this.posterUrl = posterUrl;
+	}
+
+	public String getMetascore() {
+		return metascore;
+	}
+
+	public void setMetascore(String metascore) {
 		this.metascore = metascore;
-		return this;
 	}
 
-	public Movie withImdbRating(String imdbRating) {
+	public String getImdbRating() {
+		return imdbRating;
+	}
+
+	public void setImdbRating(String imdbRating) {
 		this.imdbRating = imdbRating;
-		return this;
 	}
 
-	public Movie withImdbVotes(String imdbVotes) {
+	public String getImdbVotes() {
+		return imdbVotes;
+	}
+
+	public void setImdbVotes(String imdbVotes) {
 		this.imdbVotes = imdbVotes;
-		return this;
 	}
 
-	public Movie withImdbID(String imdbID) {
+	public String getImdbID() {
+		return imdbID;
+	}
+
+	public void setImdbID(String imdbID) {
 		this.imdbID = imdbID;
-		return this;
 	}
 
-	public Movie withType(String type) {
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
 		this.type = type;
-		return this;
 	}
 
-	public Movie withTotalSeasons(String totalSeasons) {
+	public String getTotalSeasons() {
+		return totalSeasons;
+	}
+
+	public void setTotalSeasons(String totalSeasons) {
 		this.totalSeasons = totalSeasons;
-		return this;
 	}
 
-	public Movie withResponse(String response) {
+	public String getResponse() {
+		return response;
+	}
+
+	public void setResponse(String response) {
 		this.response = response;
-		return this;
 	}
 
 }

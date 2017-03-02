@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity
 
 		fab.show();
 
-		setActiveFragment(new MovieListFragment());
+		setActiveFragment(new MovieGridFragment());
 	}
 
 	@Override public void onBackPressed() {
@@ -60,12 +60,42 @@ public class MainActivity extends AppCompatActivity
 		}
 	}
 
+	@Override public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+		switch (item.getItemId()) {
+			case R.id.nav_movies:
+				setActiveFragment(new MovieGridFragment());
+				fab.show();
+				break;
+
+			default:
+				break;
+		}
+
+		drawer.closeDrawer(GravityCompat.START);
+		return true;
+	}
+
+	@OnClick(R.id.fab) void addMovie() {
+		setActiveFragment(new SearchByNameFragment());
+		fab.hide();
+	}
+
+	public void setActiveFragment(Fragment fragment) {
+		FragmentManager fragmentManager = getFragmentManager();
+		FragmentTransaction transaction = fragmentManager.beginTransaction();
+		transaction.replace(R.id.main_container, fragment);
+		transaction.commit();
+	}
+
+	// CHECKIT
 	@Override public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
 	}
 
+	// CHECKIT
 	@Override public boolean onOptionsItemSelected(MenuItem item) {
 		// Handle action bar item clicks here. The action bar will
 		// automatically handle clicks on the Home/Up button, so long
@@ -80,34 +110,6 @@ public class MainActivity extends AppCompatActivity
 		}
 
 		return super.onOptionsItemSelected(item);
-	}
-
-	@Override public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-
-		switch (item.getItemId()) {
-			case R.id.nav_movies:
-				break;
-
-			default:
-				break;
-		}
-
-		drawer.closeDrawer(GravityCompat.START);
-		return true;
-	}
-
-	@OnClick(R.id.fab) void addMovie() {
-		// TODO Change active fragment to searchMovieFragment
-		setActiveFragment(new MovieDetailsFragment());
-
-		fab.hide();
-	}
-
-	public void setActiveFragment(Fragment fragment) {
-		FragmentManager fragmentManager = getFragmentManager();
-		FragmentTransaction transaction = fragmentManager.beginTransaction();
-		transaction.add(R.id.main_container, fragment);
-		transaction.commit();
 	}
 
 }
